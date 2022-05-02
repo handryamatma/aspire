@@ -1,5 +1,5 @@
 <template>
-  <div rounded class="virtualCard" :class="{'freezeCard' : card.frozen}">
+  <div rounded class="virtualCard">
     <div class="flex justify-end">
       <img class="" src="~assets/icons/AspireLogo-1.svg" />
     </div>
@@ -76,7 +76,4 @@ export default {
     }
   }
 }
-  .freezeCard {
-    opacity: 0.2;
-  }
 </style>

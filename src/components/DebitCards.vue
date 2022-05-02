@@ -41,21 +41,28 @@
           :key="index"
           :name="index"
         >
-          <div
-            class="flex justify-end"
-          >
-            <div class="flex q-py-sm showNumber"
-              :class="[$q.screen.xs || $q.screen.sm ? 'q-px-lg' : '']">
-              <img class="showNumber-icon" src="~assets/icons/remove_red_eye.svg" />
-              <div class="q-ml-sm showNumber-text">Show card number</div>
+          <div :class="{ freezeCard: card.frozen }">
+            <div class="flex justify-end">
+              <div
+                class="flex q-py-sm showNumber"
+                :class="[$q.screen.xs || $q.screen.sm ? 'q-px-lg' : '']"
+              >
+                <img
+                  class="showNumber-icon"
+                  src="~assets/icons/remove_red_eye.svg"
+                />
+                <div class="q-ml-sm showNumber-text">Show card number</div>
+              </div>
             </div>
+            <VirtualCard :card="card" />
           </div>
-          <VirtualCard :card="card" />
         </q-carousel-slide>
       </q-carousel>
     </div>
 
-    <div rounded class="cardAction flex justify-between"
+    <div
+      rounded
+      class="cardAction flex justify-between"
       :class="[$q.screen.xs || $q.screen.sm ? 'q-mt-md' : 'q-mt-xl']"
     >
       <div class="text-center cursor-pointer" @click="handleFreeze">
@@ -77,7 +84,10 @@
         <img class="" src="~assets/icons/ReplaceCard.svg" />
         <div class="cardAction-text">Replace card</div>
       </div>
-      <div class="text-center cursor-pointer" @click="cancelConfirmation = true">
+      <div
+        class="text-center cursor-pointer"
+        @click="cancelConfirmation = true"
+      >
         <img class="" src="~assets/icons/DeactivateCard.svg" />
         <div class="cardAction-text">Cancel card</div>
       </div>
@@ -138,7 +148,7 @@ export default {
 <style lang="scss" scoped>
 .showNumber {
   border-top-right-radius: 8px;
-  border-top-left-radius:  8px;
+  border-top-left-radius: 8px;
   background: white;
   &-text {
     color: #01d167;
@@ -149,13 +159,15 @@ export default {
     width: 16px;
   }
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    width : 20px;
-    height : 20px;
+    width: 0px;
+    height: 0px;
+    border-width: 0 11px 12px 0;
+    border-color: transparent #fff transparent transparent;
+    border-style: solid;
     right: 0;
     bottom: 245px;
-    background: white;
   }
 }
 
@@ -198,11 +210,15 @@ export default {
   }
 }
 @media (max-width: 1007px) {
- .cardAction {
-    border-top-left-radius:36px;
+  .cardAction {
+    border-top-left-radius: 36px;
     border-top-right-radius: 36px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
+}
+
+.freezeCard {
+  opacity: 0.2;
 }
 </style>
