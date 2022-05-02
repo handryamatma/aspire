@@ -1,42 +1,16 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="sidebar">
+      <q-list class="">
+        <img src="~assets/icons/AspireLogo.svg" />
+        <div class="sidebar-text">
+          Trusted way of banking for 3,000+ SMEs and startups in Singapore
+        </div>
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
+          class="q-mb-lg"
         />
       </q-list>
     </q-drawer>
@@ -44,76 +18,135 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <q-footer
+      v-if="$q.screen.xs || $q.screen.sm"
+      bordered
+      class="bg-white text-primary"
+    >
+      <q-tabs
+        no-caps
+        active-color="primary"
+        indicator-color="transparent"
+        class="text-grey"
+      >
+        <q-tab
+          v-for="link in essentialLinks"
+          :key="link.title"
+          @click="$router.push(`${link.link}`)"
+        >
+          <div class="tab--icon-wrapper flex items-center">
+            <img :src="require(`../assets/icons/${link.icon}-grey.svg`)" />
+          </div>
+          <div
+            class="tab--text"
+            :class="[$route.path === link.link ? 'activeLink' : 'tab--text-white']"
+          >
+            {{ link.title }}
+          </div>
+        </q-tab>
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: "Home",
+    icon: "Home",
+    link: "/",
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: "Cards",
+    icon: "Card",
+    link: "/cards",
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: "Payments",
+    icon: "Payments",
+    link: "/payments",
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: "Credit",
+    icon: "Credit",
+    link: "/credit",
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    title: "Settings",
+    icon: "Account",
+    link: "/settings",
   },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ];
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(false);
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+    };
+  },
+});
+</script>
+
+<style>
+.sidebar {
+  padding: 48px;
+  background-color: #0c365a;
+}
+.sidebar-text {
+  color: #fff;
+  opacity: 0.3;
+  font-size: 15px;
+  margin-top: 19px;
+  margin-bottom: 75px;
+}
+.bg-dark-blue {
+  background-color: #0c365a;
+}
+.activeLink {
+  color: #01d167;
+  font-weight: 700;
+}
+</style>
+
+<style lang="scss" scoped>
+.tab {
+  &--icon {
+    &-wrapper {
+      height: 24px;
     }
   }
-})
-</script>
+  &--text {
+    font-size: 13px;
+    &-color {
+    color: #dddddd;
+  }
+  }
+}
+:deep(.q-drawer) {
+  width: 340px !important;
+}
+.q-page-container {
+  padding-left: 340px !important;
+}
+@media (max-width: 1007px) {
+  .q-page-container {
+    padding-left: 0px !important;
+  }
+}
+</style>

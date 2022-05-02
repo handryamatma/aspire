@@ -12,10 +12,12 @@ import { createStore } from 'vuex'
  * with the Store instance.
  */
 
+import cards from "./modules/cards.module"
+
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      // example
+      cards
     },
 
     // enable strict mode (adds overhead!)
